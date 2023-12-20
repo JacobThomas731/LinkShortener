@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+
+<head>
+    <link rel="stylesheet" href="../static/styles.css">
+</head>
+
+<body>
+    <div>
+        <h1 id="header">Link Shortener</h1>
+    </div>
+    <div id="instructions">
+        <p>Type in the long url and press 'Generate' to a shorter url</p>
+    </div>
+    <div>
+        <form method="post" action="http://127.0.0.1:5000/submit-url">
+            <div id="url_text_containter">
+                <input type="text" id="url_text" name="url_text" placeholder="Type in the website">
+            </div>
+            <div id="url_submit_container">
+                <input type="submit" id="url_submit" name="url_submit" value="Generate link">
+            </div>
+        </form>
+    </div>
+    <div id="shorturl_copy_container">
+        <div id="shorturl_container">
+            <div id="shorturl"></div>
+        </div>
+        <span id="copy_container">
+               <input type="button" id="copy" value="Copy">
+        </span>
+    </div>
+    
+
+
+
+</body>
