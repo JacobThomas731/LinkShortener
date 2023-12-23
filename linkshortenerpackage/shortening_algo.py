@@ -13,7 +13,8 @@ class ShorteningAlgo:
 
     def next_value(self, val):
         last_digit = val[-1]
-        if last_digit == '9' or last_digit == 'Z' or last_digit == 'z' or last_digit is None:
+        # if last_digit == '9' or last_digit == 'Z' or last_digit == 'z' or last_digit is None:
+        if not last_digit or last_digit in '9zZ':
             if last_digit == '9':
                 return val[:-1] + 'A'
             elif last_digit == 'Z':
@@ -21,7 +22,7 @@ class ShorteningAlgo:
             else:
                 for i, s in enumerate(val[::-1]):
                     if s != 'z':
-                        return self.nextValue(val[:len(val) - i]) + '0' * i
+                        return self.next_value(val[:len(val) - i]) + '0' * i
                     else:
                         pass
                 return '0' * (len(val) + 1)
@@ -36,3 +37,5 @@ class ShorteningAlgo:
             else:
                 new_val = self.l3[self.l3.index(last_digit) + 1]
                 return val[:-1] + new_val
+
+
