@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, make_response, Blueprint, redirect
-from database import test1, shorturl, get_long_website
+from LinkShortener.linkshortenerpackage.database import test1, shorturl, get_long_website
 
 
 views = Blueprint('views', __name__)

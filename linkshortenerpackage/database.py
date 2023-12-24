@@ -1,6 +1,6 @@
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
-import shortening_algo
+from LinkShortener.linkshortenerpackage import shortening_algo
 from dotenv import load_dotenv, dotenv_values
 
 sa = None

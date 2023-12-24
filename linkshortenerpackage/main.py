@@ -1,10 +1,9 @@
 from flask import Flask
-from database import initialize_database
+from LinkShortener.linkshortenerpackage.database import initialize_database
+from LinkShortener.linkshortenerpackage.views import views
 
 def create_app():
     app = Flask(__name__, template_folder='templates')
-    from views import views
-
     app.register_blueprint(views.views)
     return app
 
