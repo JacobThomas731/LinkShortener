@@ -1,8 +1,7 @@
 from flask import Flask, render_template, request, make_response, Blueprint, redirect
-from LinkShortener.linkshortenerpackage.database import test1, shorturl, get_long_website
+from ..database import test1, shorturl, get_long_website
 
-
-views = Blueprint('views', __name__)
+views = Blueprint(name='views', import_name=__name__)
 
 
 @views.route('/')
@@ -13,7 +12,7 @@ def homepage_route():
 @views.route('/submit-url/', methods=['POST'])
 def submit_url_route():
     url = request.form['url_text']
-    short_url = 'https://linkshortener-o50k.onrender.com/sl/'+shorturl(url)
+    short_url = 'https://linkshortener-o50k.onrender.com/sl/' + shorturl(url)
     print(short_url)
     return make_response(render_template('index.html', url=short_url))
 
@@ -25,4 +24,3 @@ def short_url_called(shorturl):
         return redirect(url)
     else:
         return render_template('error404.html')
-
