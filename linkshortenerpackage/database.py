@@ -1,63 +1,65 @@
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
-from . import shortening_algo
+from . import shortening_algo as sa
 from dotenv import load_dotenv, dotenv_values
 
-sa = None
-test1 = None
+shortening_algo = None
+url_shortener_collection = None
 
 
 def initialize_database():
+    global url_shortener_collection
+    global shortening_algo
+    global database
+
     load_dotenv()
     env = dotenv_values()
-    global test1
-    global sa
-    global db
     uri = env['URI']
+    db_name = env['DATABASE_NAME']
+    db_collection_name = env['DB_COLLECTION_NAME']
 
     client = MongoClient(uri, server_api=ServerApi('1'))
-    sa = shortening_algo.ShorteningAlgo()
-    db = client['Urlshortener']
-    test1 = db['Test1']
+    shortening_algo = sa.ShorteningAlgo()
+    database = client[db_name]
+    url_shortener_collection = database[db_collection_name]
 
     return client
 
 
-def search_db_for_similar_longwebsite(url):
-    return test1.find_one({'longweb': url})
+def search_db_for_similar_long_url(url):
+    return url_shortener_collection.find_one({'long_url': url})
 
 
 def get_last_pattern():
-    res = test1.find_one({'name': 'lastpattern'}).get('pattern')
+    res = url_shortener_collection.find_one({'name': 'last_pattern'}).get('pattern')
     return res
 
 
 def get_next_pattern(pattern):
-    return sa.next_value(pattern)
+    return shortening_algo.next_value(pattern)
 
 
 def update_last_pattern(pattern):
-    filter = {'name': 'lastpattern'}
-    newval = {'$set': {'pattern': pattern}}
-    test1.update_one(filter, newval)
+    db_filter = {'name': 'last_pattern'}
+    new_value = {'$set': {'pattern': pattern}}
+    url_shortener_collection.update_one(db_filter, new_value)
 
 
-def shorturl(longurl):
-    url_obj = search_db_for_similar_longwebsite(longurl)
+def short_url(long_url):
+    url_obj = search_db_for_similar_long_url(long_url)
     if url_obj is None:
         pattern = get_last_pattern()
-        nextpattern = get_next_pattern(pattern)
-        test1.insert_one({'longweb': longurl, 'shorturl': nextpattern})
-        update_last_pattern(nextpattern)
-        return nextpattern
+        next_pattern = get_next_pattern(pattern)
+        url_shortener_collection.insert_one({'long_url': long_url, 'short_url': next_pattern})
+        update_last_pattern(next_pattern)
+        return next_pattern
     else:
-        return url_obj['shorturl']
+        return url_obj['short_url']
 
 
-def get_long_website(longurl):
-    dict = test1.find_one({'shorturl': longurl})
-    print(dict)
+def get_long_website(long_url):
+    dict = url_shortener_collection.find_one({'short_url': long_url})
     if dict:
-        return dict.get('longweb')
+        return dict.get('long_url')
     else:
         return None

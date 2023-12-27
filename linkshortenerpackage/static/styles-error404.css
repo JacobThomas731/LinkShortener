@@ -1,0 +1,27 @@
+
+
+body{
+background-color: rgb(18, 25, 26);
+position: relative;
+text-align: center;
+}
+
+h1{
+    position: relative;
+    color:rgb(206, 203, 0);
+    font-family: monospace;
+    padding: 100px 0px 50px 0px;
+    font-size:5em;
+    font-weight: 100;
+}
+#homepage_link{
+    font-family:monospace;
+    color: white;
+    font-size: 2em;
+    transition: 0.3s;
+}
+#homepage_link:hover{
+    color: rgb(206, 203, 0);
+    font-size: 2em;
+
+}

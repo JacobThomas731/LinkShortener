@@ -4,11 +4,10 @@
      <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Linkshortener</title>
-    <link rel="stylesheet" href="../static/styles.css">
+    <link rel="stylesheet" href="../static/styles-index.css">
      <script>
         function copyToClipboard() {
             var inputElement = document.getElementById("shorturl");
-            console.log(inputElement.innerHTML);
             var textarea = document.createElement("textarea");
             textarea.value = inputElement.innerHTML;
 
@@ -19,25 +18,44 @@
             textarea.select();
             document.execCommand("copy");
             document.body.removeChild(textarea);
+            if(inputElement.innerHTML != ''){
+                document.getElementById("copy").value = "Copied!";
+                setTimeout(() => {
+                    document.getElementById("copy").value = "Copy";
+                }, 2000);
 
+            }
+
+        }
+
+        function isUrlValid() {
+        var input_url = document.getElementById("url_text").value;
+        console.log(input_url)
+             try {
+               new URL(input_url);
+               console.log('true');
+             } catch (err) {
+                alert("Please use a valid URL");
+                console.log('false');
+             }
         }
     </script>
 </head>
 
 <body>
     <div>
-        <h1 id="header">Link Shortener</h1>
+        <h1 id="header">...&#60Link-Shortener&#62</h1>
     </div>
     <div id="instructions">
         <p>Type in the long url and press 'Generate' to a shorter url</p>
     </div>
     <div>
-        <form method="post" action="/submit-url">
+        <form method="post" action="/">
             <div id="url_text_containter">
                 <input type="text" id="url_text" name="url_text" placeholder="Type in the website">
             </div>
             <div id="url_submit_container">
-                <input type="submit" id="url_submit" name="url_submit" value="Generate link">
+                <input type="submit" id="url_submit" name="url_submit" value="Generate link" onclick="isUrlValid()">
             </div>
         </form>
     </div>
