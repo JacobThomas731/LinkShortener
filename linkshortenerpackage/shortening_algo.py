@@ -13,7 +13,6 @@ class ShorteningAlgo:
 
     def next_value(self, val):
         last_digit = val[-1]
-        # if last_digit == '9' or last_digit == 'Z' or last_digit == 'z' or last_digit is None:
         if not last_digit or last_digit in '9zZ':
             if last_digit == '9':
                 return val[:-1] + 'A'
